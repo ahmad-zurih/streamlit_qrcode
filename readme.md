@@ -56,7 +56,7 @@ The app is deployed and can be accessed here: [Streamlit QR Code App](https://st
 
     ```bash
     docker build -t streamlit_qrcode .
-    docker run -p 8501:8501 streamlit_qrcode
+    docker run -p 8510:8510 streamlit_qrcode
     ```
 
     The app will be running on `http://localhost:8510`.
