@@ -41,6 +41,19 @@ def main():
             file_name=f"qrcode{random.randint(10000,100000)}.png",
             mime="image/png"
         )
+    
+    # Creator and contact information
+    st.markdown("---")
+    st.markdown(
+    """
+    <p style='text-align: center; color: gray; font-size: small;'>
+        The app was created by Ahmad Alhineidi. It mainly utilites the following python modules (streamlit, qrcode, PIL). 
+        Contact <a href='mailto:ahmadhineidi@hotmail.com' style='text-decoration: none; color: gray;'>ahmadhineidi@hotmail.com</a> for issues or bugs.
+     </p>
+    """, 
+    unsafe_allow_html=True
+   )
+
 
 if __name__ == "__main__":
     main()
