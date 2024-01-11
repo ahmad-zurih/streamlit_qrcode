@@ -1,6 +1,6 @@
 import streamlit as st
 import qrcode
-from PIL import Image
+from PIL import Image, ImageOps
 import io
 import random
 
@@ -9,20 +9,28 @@ def main():
     st.title("QR Code Generator")
 
     # Input from user
-    link = st.text_area("Insert a link, phone number, email or a value to make it into a QR Code. Use newline for a new line:")
+    link = st.text_area("Insert a link, phone number, email, or a value to make it into a QR Code. Use newline for a new line:")
+
+    # Option for inverted QR code
+    inverted = st.checkbox("Generate Inverted QR Code")
+
 
     if st.button("Generate QR Code"):
         out = link.replace(r'\n', '\n')
 
         qr = qrcode.QRCode(
-            version=1,
+            version=None,  # Automatic version selection
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
             box_size=30,
-            border=10)
-
+            border=5)
         qr.add_data(out)
         qr.make(fit=True)
 
-        img = qr.make_image(fill='black', back_color='white')
+        img = qr.make_image(fill='black', back_color='white').convert('RGB')
+
+        # Invert colors if selected
+        if inverted:
+            img = ImageOps.invert(img)
 
         # Convert to a format that can be displayed by Streamlit
         buf = io.BytesIO()
@@ -45,15 +53,14 @@ def main():
     # Creator and contact information
     st.markdown("---")
     st.markdown(
-    """
-    <p style='text-align: center; color: gray; font-size: small;'>
-        The app was created by Ahmad Alhineidi. It mainly utilites the following python modules (streamlit, qrcode, PIL). 
-        Contact <a href='mailto:ahmadhineidi@hotmail.com' style='text-decoration: none; color: gray;'>ahmadhineidi@hotmail.com</a> for issues or bugs.
-     </p>
-    """, 
-    unsafe_allow_html=True
-   )
-
+        """
+        <p style='text-align: center; color: gray; font-size: small;'>
+            The app was created by Ahmad Alhineidi. It mainly utilises the following python modules (streamlit, qrcode, PIL). 
+            Contact <a href='mailto:ahmadhineidi@hotmail.com' style='text-decoration: none; color: gray;'>ahmadhineidi@hotmail.com</a> for issues or bugs.
+        </p>
+        """, 
+        unsafe_allow_html=True
+    )
 
 if __name__ == "__main__":
     main()
