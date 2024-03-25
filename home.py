@@ -11,9 +11,12 @@ def main():
     # Input from user
     link = st.text_area("Insert a link, phone number, email, or a value to make it into a QR Code. Use newline for a new line:")
 
+    # Color selection
+    fg_color = st.color_picker('Choose the foreground color for your QR Code', '#000000')  # Default to black
+    bg_color = st.color_picker('Choose the background color for your QR Code', '#FFFFFF')  # Default to white
+
     # Option for inverted QR code
     inverted = st.checkbox("Generate Inverted QR Code")
-
 
     if st.button("Generate QR Code"):
         out = link.replace(r'\n', '\n')
@@ -26,7 +29,7 @@ def main():
         qr.add_data(out)
         qr.make(fit=True)
 
-        img = qr.make_image(fill='black', back_color='white').convert('RGB')
+        img = qr.make_image(fill_color=fg_color, back_color=bg_color).convert('RGB')
 
         # Invert colors if selected
         if inverted:
