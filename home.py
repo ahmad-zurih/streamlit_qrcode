@@ -9,7 +9,7 @@ def main():
     st.title("QR Code Generator")
 
     # Input from user
-    link = st.text_area("Insert a link, phone number, email, or a value to make it into a QR Code. Use newline for a new line:")
+    link = st.text_area("Insert a link, phone number, email, or a value to make it into a QR Code:")
 
     # Color selection
     fg_color = st.color_picker('Choose the foreground color for your QR Code', '#000000')  # Default to black
@@ -18,13 +18,16 @@ def main():
     # Option for inverted QR code
     inverted = st.checkbox("Generate Inverted QR Code")
 
+    # Allow the user to choose the size of the QR code
+    size = st.slider('Choose the size of your QR Code', min_value=1, max_value=30, value=10)  # Default to 10, adjust min/max as needed
+
     if st.button("Generate QR Code"):
         out = link.replace(r'\n', '\n')
 
         qr = qrcode.QRCode(
             version=None,  # Automatic version selection
             error_correction=qrcode.constants.ERROR_CORRECT_H,
-            box_size=30,
+            box_size=size,  # User-selected size
             border=5)
         qr.add_data(out)
         qr.make(fit=True)
